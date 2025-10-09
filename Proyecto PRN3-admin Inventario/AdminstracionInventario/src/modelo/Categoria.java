@@ -8,12 +8,7 @@ public class Categoria {
     public String  nombre;      
     public String descripcion;
 
-    public Categoria(Integer id, String nombre, String descripcion) {
-        this.id = id; 
-        this.nombre = nombre; 
-        this.descripcion = descripcion;
-        
-    }
+    
     
     public Categoria( String nombre, String descripcion) {
         this(null, nombre, descripcion);
