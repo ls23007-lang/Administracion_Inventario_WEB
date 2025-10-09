@@ -15,9 +15,9 @@ import modelo.Proveedor;
 
 public class ProveedorFrame extends JFrame {
 
-   private final DAO.ProveedorDAO provDao = new DAO.ProveedorDAO();
-private javax.swing.table.DefaultTableModel modeloProv;
- 
+   
+     private DefaultTableModel model;
+private final ProveedorDAO dao = new ProveedorDAO();
     
     
   private String normalizar(String s) {
@@ -35,15 +35,9 @@ private javax.swing.table.DefaultTableModel modeloProv;
     public ProveedorFrame() {
         initComponents();
         setLocationRelativeTo(null);
-modeloProv = (javax.swing.table.DefaultTableModel) tblProveedores.getModel();
-
-if (modeloProv.getColumnCount() == 0) {
-    modeloProv.setColumnIdentifiers(new Object[]{"ID","Nombre","Teléfono","Código"});
-}
-
-refrescarTablaProveedores();
-hookSeleccionProveedor();
-       
+model = (DefaultTableModel) tblProveedores.getModel();
+refrescarTabla();
+hookSeleccionTabla();
         
         btnEliminar.addActionListener(e -> eliminarSeleccionado());
     btnNuevo.addActionListener(e -> limpiarFormulario());
@@ -61,42 +55,40 @@ hookSeleccionProveedor();
     if (!t.matches("[0-9()+\\-\\s]*"))
         throw new RuntimeException("El teléfono solo puede contener dígitos, espacios y (+ - () ).");
 }
-    private void refrescarTablaProveedores() {
-    modeloProv.setRowCount(0);
-    for (modelo.Proveedor p : provDao.listar()) {
-        modeloProv.addRow(new Object[]{ p.getId(), p.getNombre(), p.getTelefono(), p.getCodigo() });
+    private void refrescarTabla(){
+    model.setRowCount(0);
+    for (Proveedor p : dao.listar()){
+        model.addRow(new Object[]{ p.getId(), p.getNombre(), p.getTelefono(), p.getCodigo() });
     }
 }
     
-  private void hookSeleccionProveedor() {
+   private void hookSeleccionTabla(){
     tblProveedores.getSelectionModel().addListSelectionListener(e -> {
         if (e.getValueIsAdjusting()) return;
         int view = tblProveedores.getSelectedRow();
         if (view < 0) return;
         int row = tblProveedores.convertRowIndexToModel(view);
-
-        txtId.setText(String.valueOf(modeloProv.getValueAt(row, 0)));
-        txtNombre.setText(String.valueOf(modeloProv.getValueAt(row, 1)));
-        txtTelefono.setText(String.valueOf(modeloProv.getValueAt(row, 2)));
-        txtCodigo.setText(String.valueOf(modeloProv.getValueAt(row, 3)));
+        txtId.setText(String.valueOf(model.getValueAt(row,0)));
+        txtNombre.setText(String.valueOf(model.getValueAt(row,1)));
+        txtTelefono.setText(String.valueOf(model.getValueAt(row,2)));
+        txtCodigo.setText(String.valueOf(model.getValueAt(row,3)));
     });
 }
-   private void seleccionarPorId(Integer id) {
-        if (id == null) return;
-        for (int i = 0; i < modeloProv.getRowCount(); i++) {
-            Object cell = modeloProv.getValueAt(i, 0);
-            if (java.util.Objects.equals(cell, id)) {
-                int viewIndex = (tblProveedores.getRowSorter() != null)
-                        ? tblProveedores.convertRowIndexToView(i) : i;
-                if (viewIndex >= 0) {
-                    tblProveedores.getSelectionModel().setSelectionInterval(viewIndex, viewIndex);
-                    tblProveedores.scrollRectToVisible(tblProveedores.getCellRect(viewIndex, 0, true));
-                }
-                break;
+   private void seleccionarPorId(Integer id){
+    if (id == null) return;
+    for (int i = 0; i < model.getRowCount(); i++){
+        Object cell = model.getValueAt(i,0);
+        if (java.util.Objects.equals(cell, id)){
+            int viewIndex = (tblProveedores.getRowSorter()!=null)
+                    ? tblProveedores.convertRowIndexToView(i) : i;
+            if (viewIndex >= 0){
+                tblProveedores.getSelectionModel().setSelectionInterval(viewIndex, viewIndex);
+                tblProveedores.scrollRectToVisible(tblProveedores.getCellRect(viewIndex, 0, true));
             }
+            break;
         }
     }
-   
+}
    
 private void limpiarFormulario(){
     tblProveedores.clearSelection();
@@ -107,33 +99,41 @@ private void limpiarFormulario(){
     txtNombre.requestFocusInWindow();
 }
 private void eliminarSeleccionado() {
-        int viewRow = tblProveedores.getSelectedRow();
-        if (viewRow < 0) {
-            JOptionPane.showMessageDialog(this, "Seleccione un proveedor de la tabla.");
-            return;
-        }
-        int modelRow = tblProveedores.convertRowIndexToModel(viewRow);
-        Object idCell = modeloProv.getValueAt(modelRow, 0);
-        Integer id = (idCell instanceof Integer) ? (Integer) idCell : Integer.valueOf(String.valueOf(idCell).trim());
-        String nombre = String.valueOf(modeloProv.getValueAt(modelRow, 1));
-
-        int opt = JOptionPane.showConfirmDialog(
-                this,
-                "¿Eliminar al proveedor \"" + nombre + "\" (#" + id + ")?",
-                "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE
-        );
-        if (opt != JOptionPane.YES_OPTION) return;
-
-        try {
-            
-          provDao.eliminar(id);
-            refrescarTablaProveedores();
-            limpiarFormulario();
-            JOptionPane.showMessageDialog(this, "Eliminado.");
-        } catch (RuntimeException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    int viewRow = tblProveedores.getSelectedRow();
+    if (viewRow < 0) {
+        JOptionPane.showMessageDialog(this, "Seleccione un proveedor de la tabla.");
+        return;
     }
+
+    int modelRow = tblProveedores.convertRowIndexToModel(viewRow);
+    Object idCell = model.getValueAt(modelRow, 0);
+    Integer id;
+    try {
+        id = (idCell instanceof Integer) ? (Integer) idCell : Integer.valueOf(String.valueOf(idCell).trim());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "ID inválido en la fila seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    String nombre = String.valueOf(model.getValueAt(modelRow, 1));
+
+    int opt = JOptionPane.showConfirmDialog(
+            this,
+            "¿Eliminar al proveedor \"" + nombre + "\" (#" + id + ")?",
+            "Confirmación",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+    );
+    if (opt != JOptionPane.YES_OPTION) return;
+
+    try {
+        dao.eliminar(id);
+        refrescarTabla();
+        limpiarFormulario();
+        JOptionPane.showMessageDialog(this, "Eliminado.");
+    } catch (RuntimeException ex) {
+        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
 
    
     @SuppressWarnings("unchecked")
@@ -164,7 +164,6 @@ private void eliminarSeleccionado() {
         btnEliminar = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        btnSalir = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -285,14 +284,6 @@ private void eliminarSeleccionado() {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("GESTION DE PROVEEDORES");
 
-        btnSalir.setBackground(new java.awt.Color(255, 102, 0));
-        btnSalir.setText("Salir");
-        btnSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalirActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -337,10 +328,6 @@ private void eliminarSeleccionado() {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(33, 33, 33)))
                 .addGap(15, 15, 15))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnSalir)
-                .addGap(67, 67, 67))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,9 +356,7 @@ private void eliminarSeleccionado() {
                     .addComponent(btnActualizar)
                     .addComponent(btnEliminar)
                     .addComponent(btnNuevo))
-                .addGap(27, 27, 27)
-                .addComponent(btnSalir)
-                .addGap(40, 40, 40)
+                .addGap(89, 89, 89)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(93, Short.MAX_VALUE))
         );
@@ -435,56 +420,57 @@ private void eliminarSeleccionado() {
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         // TODO add your handling code here:
-    try {
-            String nombre  = txtNombre.getText();
-            String tel     = txtTelefono.getText();
-            String codigo  = txtCodigo.getText();
+     
+   try {
+    String nombre  = txtNombre.getText();
+    String tel     = txtTelefono.getText();
+    String codigo  = txtCodigo.getText();
 
-            if (nombre == null || nombre.trim().isEmpty())
-                throw new RuntimeException("El nombre es obligatorio.");
-            if (codigo == null || codigo.trim().isEmpty())
-                throw new RuntimeException("El código es obligatorio.");
+    if (nombre == null || nombre.trim().isEmpty())
+        throw new RuntimeException("El nombre es obligatorio.");
+    if (codigo == null || codigo.trim().isEmpty())
+        throw new RuntimeException("El código es obligatorio.");
 
-            validarTelefono(tel);
+    validarTelefono(tel);
 
-            Proveedor p = new Proveedor(nombre, trimOrNull(tel), codigo);
-            provDao.insertar(p);
+    Proveedor p = new Proveedor(nombre, trimOrNull(tel), codigo);
+    dao.insertar(p);
 
-            refrescarTablaProveedores();
-            seleccionarPorId(p.getId());
-            JOptionPane.showMessageDialog(this, "Proveedor creado (#" + p.getId() + ")");
-        } catch (RuntimeException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
-        }
+    refrescarTabla();
+    seleccionarPorId(p.getId());
+    JOptionPane.showMessageDialog(this, "Proveedor creado (#" + p.getId() + ")");
+} catch (RuntimeException ex) {
+    JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
+}
 
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-     try {
-            String idText = txtId.getText();
-            Integer id = (idText == null || idText.trim().isEmpty()) ? null : Integer.valueOf(idText.trim());
-            if (id == null) throw new RuntimeException("Selecciona un registro para actualizar.");
+      try {
+    String idText = txtId.getText();
+    Integer id = (idText == null || idText.trim().isEmpty()) ? null : Integer.valueOf(idText.trim());
+    if (id == null) throw new RuntimeException("Selecciona un registro para actualizar.");
 
-            String nombre  = txtNombre.getText();
-            String tel     = txtTelefono.getText();
-            String codigo  = txtCodigo.getText();
+    String nombre  = txtNombre.getText();
+    String tel     = txtTelefono.getText();
+    String codigo  = txtCodigo.getText();
 
-            if (nombre == null || nombre.trim().isEmpty())
-                throw new RuntimeException("El nombre es obligatorio.");
-            if (codigo == null || codigo.trim().isEmpty())
-                throw new RuntimeException("El código es obligatorio.");
+    if (nombre == null || nombre.trim().isEmpty())
+        throw new RuntimeException("El nombre es obligatorio.");
+    if (codigo == null || codigo.trim().isEmpty())
+        throw new RuntimeException("El código es obligatorio.");
 
-            validarTelefono(tel);
+    validarTelefono(tel);
 
-            Proveedor p = new Proveedor(id, nombre, trimOrNull(tel), codigo);
-            provDao.actualizar(p);
+    Proveedor p = new Proveedor(id, nombre, trimOrNull(tel), codigo);
+    dao.actualizar(p);
 
-            refrescarTablaProveedores();
-            seleccionarPorId(p.getId());
-            JOptionPane.showMessageDialog(this, "Cambios guardados (#" + p.getId() + ")");
-        } catch (RuntimeException ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
-        }
+    refrescarTabla();
+    seleccionarPorId(p.getId());
+    JOptionPane.showMessageDialog(this, "Cambios guardados (#" + p.getId() + ")");
+} catch (RuntimeException ex) {
+    JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
+}
 
 
 
@@ -492,17 +478,31 @@ private void eliminarSeleccionado() {
 
     
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
- eliminarSeleccionado();
+ int viewRow = tblProveedores.getSelectedRow();
+if (viewRow < 0) { JOptionPane.showMessageDialog(this, "Seleccione un proveedor de la tabla."); return; }
+int modelRow = tblProveedores.convertRowIndexToModel(viewRow);
+Integer id = (Integer) model.getValueAt(modelRow, 0);
+String nombre = String.valueOf(model.getValueAt(modelRow, 1));
+
+int opt = JOptionPane.showConfirmDialog(this,
+        "¿Eliminar al proveedor \"" + nombre + "\" (#" + id + ")?",
+        "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+if (opt == JOptionPane.YES_OPTION){
+    try {
+        dao.eliminar(id);
+        refrescarTabla();
+        limpiarFormulario();
+        JOptionPane.showMessageDialog(this, "Eliminado.");
+    } catch (RuntimeException ex){
+        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+}
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         limpiarFormulario();
     }//GEN-LAST:event_btnNuevoActionPerformed
-
-    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        // TODO add your handling code here:
-        dispose();
-    }//GEN-LAST:event_btnSalirActionPerformed
 
 
     
@@ -512,7 +512,6 @@ private void eliminarSeleccionado() {
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

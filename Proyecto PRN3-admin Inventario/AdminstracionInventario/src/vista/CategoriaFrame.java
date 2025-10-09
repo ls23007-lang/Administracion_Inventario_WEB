@@ -13,9 +13,10 @@ import javax.swing.border.EmptyBorder;
 
 public class CategoriaFrame extends JFrame {
 
-  private DefaultTableModel modeloTabla;
+ private javax.swing.table.DefaultTableModel modeloTabla;
     private JTable tablaCategorias;
-    
+    private final DAO.CategoriaDAO catDao = new DAO.CategoriaDAO();
+
     
   private String normalizar(String s) {
     return s == null ? "" : s.trim().replaceAll("\\s+", " ").toLowerCase();
@@ -30,11 +31,9 @@ public class CategoriaFrame extends JFrame {
 
 private void limpiarCampos(JTextComponent txtId,
                            JTextComponent txtNombre,
-                           JTextComponent txtCodigo,
                            JTextComponent txtDescripcion) {
     txtId.setText("");
     txtNombre.setText("");
-    txtCodigo.setText("");
     txtDescripcion.setText("");
     tablaCategorias.clearSelection();
     txtNombre.requestFocus();
@@ -52,37 +51,43 @@ private void limpiarCampos(JTextComponent txtId,
 
 
     public CategoriaFrame() {
-        setTitle("Gestión de Categoría");
         initComponents();
-         setLocationRelativeTo(null);
-         
-         modeloTabla = (DefaultTableModel) tblCategorias.getModel();
-       tablaCategorias = tblCategorias;
-       tablaCategorias.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        setLocationRelativeTo(null);
+        
+         modeloTabla = (javax.swing.table.DefaultTableModel) tblCategorias.getModel();
+      
+           if (modeloTabla.getColumnCount() == 0) {
+    modeloTabla.setColumnIdentifiers(new Object[]{"ID","Nombre","Descripción"});
+    
+}
+refrescarTablaCategorias();
+hookSeleccionTabla();  
 
-       tablaCategorias.getSelectionModel().addListSelectionListener(e -> {
-            if (e.getValueIsAdjusting()) return;
-            int row = tablaCategorias.getSelectedRow();
-            if (row >= 0) {
-                int r = (tablaCategorias.getRowSorter()==null)? row : tablaCategorias.convertRowIndexToModel(row);
-                txtId.setText(String.valueOf(modeloTabla.getValueAt(row, 0)));
-                txtNombre.setText(String.valueOf(modeloTabla.getValueAt(row, 1)));
-                txtCodigo.setText(String.valueOf(modeloTabla.getValueAt(row, 2)));
-                txtDescripcion.setText(String.valueOf(modeloTabla.getValueAt(row, 3)));
-            }
-         });
-
-        tablaCategorias.getSelectionModel().addListSelectionListener(e -> {
-            if (e.getValueIsAdjusting()) return;
-            int fila = tablaCategorias.getSelectedRow();
-            if (fila >= 0) {
-                txtId.setText(String.valueOf(modeloTabla.getValueAt(fila, 0)));
-                txtNombre.setText(String.valueOf(modeloTabla.getValueAt(fila, 1)));
-            }
-
+      
+    }    
+    
+     
+    
+    
+    private void refrescarTablaCategorias() {
+    modeloTabla.setRowCount(0);                 
+    for (modelo.Categoria c : catDao.listar()) { 
+        modeloTabla.addRow(new Object[]{
+            c.getId(),  c.getNombre(), c.getDescripcion()
         });
-        modeloTabla.setRowCount(0);
-                }
+    }
+}
+    private void hookSeleccionTabla() {
+    tblCategorias.getSelectionModel().addListSelectionListener(e -> {
+        if (e.getValueIsAdjusting()) return;
+        int view = tblCategorias.getSelectedRow();
+        if (view < 0) return;
+        int row = tblCategorias.convertRowIndexToModel(view);
+        txtId.setText(String.valueOf(modeloTabla.getValueAt(row,0)));
+        txtNombre.setText(String.valueOf(modeloTabla.getValueAt(row,1)));
+        txtDescripcion.setText(String.valueOf(modeloTabla.getValueAt(row,2)));
+    });
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -100,8 +105,6 @@ private void limpiarCampos(JTextComponent txtId,
         jLabel3 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtCodigo = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         txtDescripcion = new javax.swing.JTextField();
@@ -151,17 +154,17 @@ private void limpiarCampos(JTextComponent txtId,
         tblCategorias.setForeground(new java.awt.Color(255, 255, 255));
         tblCategorias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Codigo", "Descripcion"
+                "ID", "Nombre", "Descripcion"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -181,16 +184,6 @@ private void limpiarCampos(JTextComponent txtId,
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Nombre:");
-
-        txtCodigo.setBackground(new java.awt.Color(102, 102, 102));
-        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCodigoActionPerformed(evt);
-            }
-        });
-
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Codigo:");
 
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Descripcion:");
@@ -309,15 +302,12 @@ private void limpiarCampos(JTextComponent txtId,
                     .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(72, 72, 72)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 695, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -344,11 +334,7 @@ private void limpiarCampos(JTextComponent txtId,
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
+                        .addGap(52, 52, 52)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
@@ -407,7 +393,7 @@ private void limpiarCampos(JTextComponent txtId,
         if (JOptionPane.showConfirmDialog(this, "¿Eliminar la categoría seleccionada?",
             "Confirmar", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
         modeloTabla.removeRow(fila);
-        limpiarCampos(txtId, txtNombre, txtCodigo, txtDescripcion);
+        limpiarCampos(txtId, txtNombre,  txtDescripcion);
         }
         refrescarTabla();
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -419,28 +405,26 @@ private void limpiarCampos(JTextComponent txtId,
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
-        limpiarCampos(txtId, txtNombre, txtCodigo, txtDescripcion);
+        limpiarCampos(txtId, txtNombre, txtDescripcion);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
 
     String nombre = denormalize(txtNombre.getText());
-    String codigo = denormalize(txtCodigo.getText());
     String desc   = safe(txtDescripcion.getText());
 
     String nomNorm = normalizar(nombre);
-    String codNorm = normalizar(codigo);
-    if (codNorm.isEmpty()) { msg("El código es obligatorio."); txtCodigo.requestFocus(); return; }
+    
     if (nomNorm.isEmpty()) { msg("El nombre es obligatorio."); txtNombre.requestFocus(); return; }
 
     for (int i = 0; i < modeloTabla.getRowCount(); i++) {
         String nEx = normalizar(String.valueOf(modeloTabla.getValueAt(i, 1))); // col 1 = Nombre
         String cEx = normalizar(String.valueOf(modeloTabla.getValueAt(i, 2))); // col 2 = Código
         if (nEx.equals(nomNorm)) { msg("Nombre ya existe."); txtNombre.requestFocus(); return; }
-        if (cEx.equals(codNorm)) { msg("Código ya existe."); txtCodigo.requestFocus(); return; }
+        
     }
 
-    modeloTabla.addRow(new Object[]{ generadorId++, nombre, codigo, desc });
+    modeloTabla.addRow(new Object[]{ generadorId++, nombre,  desc });
 
     int last = modeloTabla.getRowCount() - 1;
     if (last >= 0) {
@@ -450,7 +434,6 @@ private void limpiarCampos(JTextComponent txtId,
 
     txtId.setText(""); 
     txtNombre.setText("");
-    txtCodigo.setText("");
     txtDescripcion.setText("");
     tblCategorias.clearSelection();
     txtNombre.requestFocus();
@@ -463,13 +446,10 @@ private void limpiarCampos(JTextComponent txtId,
         if (fila < 0) { msg("Selecciona una fila para actualizar."); return; }
 
         String nombre = denormalize(txtNombre.getText());
-        String codigo = denormalize(txtCodigo.getText());
         String desc   = safe(txtDescripcion.getText());
 
         String nomNorm = normalizar(nombre);
-        String codNorm = normalizar(codigo);
 
-        if (codNorm.isEmpty()) { msg("El código es obligatorio."); txtCodigo.requestFocus(); return; }
         if (nomNorm.isEmpty()) { msg("El nombre es obligatorio."); txtNombre.requestFocus(); return; }
 
         for (int i = 0; i < modeloTabla.getRowCount(); i++) {
@@ -477,19 +457,13 @@ private void limpiarCampos(JTextComponent txtId,
             String nEx = normalizar(String.valueOf(modeloTabla.getValueAt(i, 1)));
             String cEx = normalizar(String.valueOf(modeloTabla.getValueAt(i, 2)));
             if (nEx.equals(nomNorm)) { msg("Nombre ya existe."); return; }
-            if (cEx.equals(codNorm)) { msg("Código ya existe."); return; }
         }
 
         modeloTabla.setValueAt(nombre, fila, 1);
-        modeloTabla.setValueAt(codigo, fila, 2);
-        modeloTabla.setValueAt(desc,   fila, 3);
+        modeloTabla.setValueAt(desc,   fila, 2);
         msg("Categoría actualizada.");
         refrescarTabla();
     }//GEN-LAST:event_btnActualizarActionPerformed
-
-    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodigoActionPerformed
 
     
 
@@ -504,7 +478,6 @@ private void limpiarCampos(JTextComponent txtId,
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
@@ -518,7 +491,6 @@ private void limpiarCampos(JTextComponent txtId,
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable tblCategorias;
-    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;

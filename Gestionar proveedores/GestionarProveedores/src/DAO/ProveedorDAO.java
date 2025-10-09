@@ -7,23 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProveedorDAO {
-   public List<Proveedor> listar() {
-        String sql = "SELECT id, nombre, telefono, codigo FROM proveedores ORDER BY id";
+    
+    public List<Proveedor> listar() {
+        String sql = "SELECT id, nombre, telefono, codigo FROM proveedor ORDER BY id";
         List<Proveedor> data = new ArrayList<>();
-        try (Connection cn = ConexionBDProv.getConnection();
+        try (Connection cn = ConexionBDCProv.getConnection();
              PreparedStatement ps = cn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-
             while (rs.next()) {
                 data.add(new Proveedor(
-                        
-                        rs.getInt("id"),
-                        rs.getString("nombre"),
-                        rs.getString("telefono"),
-                 rs.getString("codigo")));
+                    rs.getInt("id"),
+                    rs.getString("nombre"),
+                    rs.getString("telefono"),
+                    rs.getString("codigo")
+                ));
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Error al listar Proveedores: " + e.getMessage(), e);
+            throw new RuntimeException("Error al listar proveedores: " + e.getMessage(), e);
         }
         return data;
     }
@@ -31,7 +31,7 @@ public class ProveedorDAO {
     public Proveedor insertar(Proveedor p) {
         validar(p);
         String sql = "INSERT INTO proveedor(nombre, telefono, codigo) VALUES(?, ?, ?) RETURNING id";
-        try (Connection cn = ConexionBDProv.getConnection();
+        try (Connection cn = ConexionBDCProv.getConnection();
              PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setString(1, p.getNombre().trim());
             ps.setString(2, trimOrNull(p.getTelefono()));
@@ -49,7 +49,7 @@ public class ProveedorDAO {
         if (p.getId() == null) throw new IllegalArgumentException("ID requerido para actualizar.");
         validar(p);
         String sql = "UPDATE proveedor SET nombre=?, telefono=?, codigo=? WHERE id=?";
-        try (Connection cn = ConexionBDProv.getConnection();
+        try (Connection cn = ConexionBDCProv.getConnection();
              PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setString(1, p.getNombre().trim());
             ps.setString(2, trimOrNull(p.getTelefono()));
@@ -65,7 +65,7 @@ public class ProveedorDAO {
 
     public void eliminar(int id) {
         String sql = "DELETE FROM proveedor WHERE id=?";
-        try (Connection cn = ConexionBDProv.getConnection();
+        try (Connection cn = ConexionBDCProv.getConnection();
              PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setInt(1, id);
             if (ps.executeUpdate() == 0) throw new RuntimeException("Proveedor no existe.");
@@ -76,7 +76,7 @@ public class ProveedorDAO {
 
     public Proveedor buscarPorId(int id) {
         String sql = "SELECT id, nombre, telefono, codigo FROM proveedor WHERE id=?";
-        try (Connection cn = ConexionBDProv.getConnection();
+        try (Connection cn = ConexionBDCProv.getConnection();
              PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
