@@ -12,11 +12,11 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
  // Para JComboBox
 // Para JComboBox
-import Producto.DAO.ProductoDAO; // ⬅️ CORREGIDO
-import Producto.DAO.CategoriaDAO; // ⬅️ CORREGIDO
-import Producto.DAO.ProveedorDAO; // ⬅️ CORREGIDO
-import Producto.modelo.Producto; // ⬅️ CORREGIDO
-import Producto.modelo.Item; // ⬅️ CORREGIDO
+import Producto.DAO.ProductoDAO; 
+import Producto.DAO.CategoriaDAO; 
+import Producto.DAO.ProveedorDAO; 
+import Producto.modelo.Producto; 
+import Producto.modelo.Item; 
 
 /**
  *
@@ -25,11 +25,11 @@ import Producto.modelo.Item; // ⬅️ CORREGIDO
 public class RegistrarProducto extends javax.swing.JFrame {
 
 
-   // 🟢 DECLARACIONES
+   // DECLARACIONES
     private List<Item> categorias;
     private List<Item> proveedores;
 
-    // 🟢 INSTANCIACIÓN DE DAOs (CORREGIDO)
+    // INSTANCIACIÓN DE DAOs (CORREGIDO)
     // ProductoDAO se instancia en los métodos donde se necesita (registrar, actualizar, etc.)
     private CategoriaDAO categoriaDAO = new CategoriaDAO(); 
     private ProveedorDAO proveedorDAO = new ProveedorDAO(); 
@@ -52,7 +52,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
             new Object[][]{},
             new String[]{"ID", "Nombre", "Marca", "Modelo", "Categoría", "Proveedor", "Cantidad", "Costo Unitario"}
         ) {
-             // Hacer la columna ID no editable
+             //  la columna ID no editable
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column != 0; 
@@ -86,7 +86,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
     }
 
     // -------------------------------------------------------------------------
-    // 🟢 NUEVO MÉTODO IMPORTANTE: CARGA DATOS CLAVE
+    
     // -------------------------------------------------------------------------
     /**
      * Carga las listas de categorías y proveedores desde la BD.
@@ -127,7 +127,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         cmbProveedor.setSelectedIndex(-1);
     }
 
-    // 🟢 MÉTODO: Cargar datos de la BD a la JTable
+    // MÉTODO: Cargar datos de la BD a la JTable
     private void cargarTablaProductos() {
         ProductoDAO productoDAO = new ProductoDAO();
         DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductos.getModel();
@@ -561,7 +561,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
             }
 
             // 3. Obtener los IDs reales de las claves foráneas
-            // 🟢 CORRECCIÓN CLAVE: Se usa .get(index) en lugar de [index] en una List
+            //  Se usa .get(index) en lugar de [index] en una List
             Item categoriaSeleccionada = categorias.get(catIndex);
             Item proveedorSeleccionado = proveedores.get(provIndex);
 
@@ -635,8 +635,8 @@ this.dispose();
                 p.getNombre(),
                 p.getMarca(),
                 p.getModelo(),
-                catNombre, // Nombre de la categoría
-                provNombre, // Nombre del proveedor
+                catNombre, 
+                provNombre, 
                 p.getCantidad(),
                 p.getCostoUnitario()
             });
@@ -644,7 +644,7 @@ this.dispose();
         JOptionPane.showMessageDialog(this, "Se encontraron " + productosFiltrados.size() + " producto(s).", "Búsqueda Exitosa", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    // Opcional: limpiar el campo de búsqueda después de mostrar los resultados
+    //  limpiar el campo de búsqueda después de mostrar los resultados
     txtBuscar.setText(""); 
         
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -674,11 +674,11 @@ this.dispose();
                      return;
                 }
 
-                // 🟢 CORRECCIÓN CLAVE: Se usa .get(index) en lugar de [index] en una List
+                 
                 Item categoriaSeleccionada = categorias.get(catIndex);
                 Item proveedorSeleccionado = proveedores.get(provIndex);
                 
-                // 2. Crear el objeto Producto para enviar al DAO (ahora SÍ necesita el ID)
+                // Crear el objeto Producto para enviar al DAO (ahora SÍ necesita el ID)
                 Producto productoActualizado = new Producto(
                     idProducto, txtNombre.getText(), txtMarca.getText(), txtModelo.getText(), 
                     cantidad, precio, categoriaSeleccionada.getId(), proveedorSeleccionado.getId()

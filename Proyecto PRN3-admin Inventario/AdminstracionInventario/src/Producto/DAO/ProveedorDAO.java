@@ -27,7 +27,7 @@ public class ProveedorDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        // ⚠️ AJUSTA los nombres de tabla y columnas si son diferentes en tu BD.
+        //  AJUSTA los nombres de tabla y columnas si son diferentes en tu BD.
         String sql = "SELECT idProveedor, nombreProveedor FROM tb_proveedor ORDER BY nombreProveedor"; 
 
         try {

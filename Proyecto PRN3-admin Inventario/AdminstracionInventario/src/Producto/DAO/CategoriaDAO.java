@@ -25,11 +25,11 @@ public class CategoriaDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        // ⚠️ AJUSTA los nombres de tabla y columnas si son diferentes en tu BD.
+        //️ AJUSTA los nombres de tabla y columnas si son diferentes en tu BD.
         String sql = "SELECT idCategoria, descripcion FROM tb_categoria ORDER BY descripcion"; 
 
         try {
-            con = ConexionBD.getConexion(); // ⬅️ LLAMADA CORREGIDA
+            con = ConexionBD.getConexion(); 
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
 
