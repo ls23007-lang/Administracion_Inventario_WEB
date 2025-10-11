@@ -71,7 +71,7 @@ hookSeleccionTabla();
     
     private void refrescarTablaCategorias() {
     modeloTabla.setRowCount(0);                 
-    for (Categorias.Categoria c : catDao.listar()) { 
+    for (Categorias.modelo.Categoria c : catDao.listar()) { 
         modeloTabla.addRow(new Object[]{
             c.getId(),  c.getNombre(), c.getDescripcion()
         });

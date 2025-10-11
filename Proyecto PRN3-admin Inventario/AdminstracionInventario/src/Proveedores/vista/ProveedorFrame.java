@@ -10,7 +10,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
-import Proveedores.Proveedor;
+import Proveedores.modelo.Proveedor;
 
 
 public class ProveedorFrame extends JFrame {
@@ -63,7 +63,7 @@ hookSeleccionProveedor();
 }
     private void refrescarTablaProveedores() {
     modeloProv.setRowCount(0);
-    for (Proveedores.Proveedor p : provDao.listar()) {
+    for (Proveedores.modelo.Proveedor p : provDao.listar()) {
         modeloProv.addRow(new Object[]{ p.getId(), p.getNombre(), p.getTelefono(), p.getCodigo() });
     }
 }

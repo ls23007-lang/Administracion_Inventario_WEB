@@ -1,5 +1,5 @@
 
-package Proveedores;
+package Proveedores.modelo;
 
 import javax.swing.UIManager;
 import Proveedores.vista.ProveedorFrame;

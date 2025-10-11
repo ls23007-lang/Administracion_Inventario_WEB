@@ -1,5 +1,5 @@
 
-package Categorias;
+package Categorias.modelo;
 
 
 

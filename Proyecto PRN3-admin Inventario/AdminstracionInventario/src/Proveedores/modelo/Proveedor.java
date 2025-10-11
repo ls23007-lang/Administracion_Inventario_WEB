@@ -1,5 +1,5 @@
 
-package Proveedores;
+package Proveedores.modelo;
 
 public class Proveedor {
    public Integer id;

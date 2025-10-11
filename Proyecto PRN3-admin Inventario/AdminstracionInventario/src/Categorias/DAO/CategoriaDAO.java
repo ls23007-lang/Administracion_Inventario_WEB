@@ -1,7 +1,7 @@
 
 package Categorias.DAO;
 
-import Categorias.Categoria;
+import Categorias.modelo.Categoria;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

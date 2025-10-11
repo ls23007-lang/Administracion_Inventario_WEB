@@ -1,5 +1,5 @@
 
-package Categorias;
+package Categorias.modelo;
 import javax.swing.*;
 import Categorias.vista.CategoriaFrame;
 
