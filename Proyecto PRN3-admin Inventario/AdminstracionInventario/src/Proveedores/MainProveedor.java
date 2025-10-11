@@ -1,8 +1,8 @@
 
-package app;
+package Proveedores;
 
 import javax.swing.UIManager;
-import vista.ProveedorFrame;
+import Proveedores.vista.ProveedorFrame;
 
 
 public class MainProveedor {

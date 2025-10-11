@@ -1,7 +1,7 @@
 
-package DAO;
+package Proveedores.DAO;
 
-import modelo.Proveedor;
+import Proveedores.Proveedor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
 
-package vista;
+package Proveedores.vista;
 
-import DAO.ProveedorDAO;
+import Proveedores.DAO.ProveedorDAO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -10,12 +10,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
-import modelo.Proveedor;
+import Proveedores.Proveedor;
 
 
 public class ProveedorFrame extends JFrame {
 
-   private final DAO.ProveedorDAO provDao = new DAO.ProveedorDAO();
+   private final Proveedores.DAO.ProveedorDAO provDao = new Proveedores.DAO.ProveedorDAO();
 private javax.swing.table.DefaultTableModel modeloProv;
  
     
@@ -63,7 +63,7 @@ hookSeleccionProveedor();
 }
     private void refrescarTablaProveedores() {
     modeloProv.setRowCount(0);
-    for (modelo.Proveedor p : provDao.listar()) {
+    for (Proveedores.Proveedor p : provDao.listar()) {
         modeloProv.addRow(new Object[]{ p.getId(), p.getNombre(), p.getTelefono(), p.getCodigo() });
     }
 }

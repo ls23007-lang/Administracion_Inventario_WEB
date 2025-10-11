@@ -1,5 +1,5 @@
 
-package vista;
+package Categorias.vista;
 import javax.swing.table.AbstractTableModel;
 
 import javax.swing.text.JTextComponent;
@@ -15,7 +15,7 @@ public class CategoriaFrame extends JFrame {
 
  private javax.swing.table.DefaultTableModel modeloTabla;
     private JTable tablaCategorias;
-    private final DAO.CategoriaDAO catDao = new DAO.CategoriaDAO();
+    private final Categorias.DAO.CategoriaDAO catDao = new Categorias.DAO.CategoriaDAO();
 
     
   private String normalizar(String s) {
@@ -71,7 +71,7 @@ hookSeleccionTabla();
     
     private void refrescarTablaCategorias() {
     modeloTabla.setRowCount(0);                 
-    for (modelo.Categoria c : catDao.listar()) { 
+    for (Categorias.Categoria c : catDao.listar()) { 
         modeloTabla.addRow(new Object[]{
             c.getId(),  c.getNombre(), c.getDescripcion()
         });

@@ -1,7 +1,7 @@
 
-package app;
+package Categorias;
 import javax.swing.*;
-import vista.CategoriaFrame;
+import Categorias.vista.CategoriaFrame;
 
 public class MainCategoria {
     public static void main(String[] args) {

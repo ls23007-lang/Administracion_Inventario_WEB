@@ -1,11 +1,11 @@
 
-package DAO;
+package Categorias.DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConexionBDProv {
+public class ConexionBDCateg {
     private static final String URL  = "jdbc:postgresql://localhost:5432/inventario_usuario";
     private static final String USER = "inventario_usuario";
     private static final String PASSWORD = "inventario";
