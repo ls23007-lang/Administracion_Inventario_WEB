@@ -42,6 +42,9 @@ public class Producto {
         this.categoriaId = categoriaId;
         this.proveedorId = proveedorId;
     }
+
+    public Producto() {
+    }
     
     // --- Getters y Setters ---
 

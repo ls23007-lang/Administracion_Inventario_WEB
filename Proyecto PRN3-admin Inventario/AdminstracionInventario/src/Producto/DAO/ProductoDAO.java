@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import Producto.modelo.Producto; 
-
+import Categorias.DAO.ConexionBDCateg;
 /**
  *
  * @author ander
@@ -28,7 +28,7 @@ public class ProductoDAO {
         String sql = "INSERT INTO " + TABLA + " (nombre, marca, modelo, cantidad, costoUnitario, idCategoria, idProveedor) " +
                       "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
-            con = ConexionBD.getConexion();
+            con = ConexionBDCateg.getConnection();
             ps = con.prepareStatement(sql);
             
             ps.setString(1, p.getNombre());
@@ -65,7 +65,7 @@ public class ProductoDAO {
         String sql = "SELECT idProducto, nombre, marca, modelo, cantidad, costoUnitario, idCategoria, idProveedor FROM " + TABLA;
         
         try {
-            con = ConexionBD.getConexion();
+            con = ConexionBDCateg.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             
@@ -116,7 +116,7 @@ public class ProductoDAO {
         String criterioParcial = "%" + criterio.trim() + "%";
 
         try {
-            con = ConexionBD.getConexion();
+            con = ConexionBDCateg.getConnection();
             ps = con.prepareStatement(sql);
             
             // Parámetro 1: Búsqueda exacta por ID (necesita el criterio original)
@@ -165,7 +165,7 @@ public class ProductoDAO {
         String sql = "UPDATE " + TABLA + " SET nombre=?, marca=?, modelo=?, cantidad=?, costoUnitario=?, idCategoria=?, idProveedor=? " +
                       "WHERE idProducto=?";
         try {
-            con = ConexionBD.getConexion();
+            con = ConexionBDCateg.getConnection();
             ps = con.prepareStatement(sql);
             
             ps.setString(1, p.getNombre());
@@ -199,7 +199,7 @@ public class ProductoDAO {
         PreparedStatement ps = null;
         String sql = "DELETE FROM " + TABLA + " WHERE idProducto = ?";
         try {
-            con = ConexionBD.getConexion();
+            con = ConexionBDCateg.getConnection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, idProducto);
             

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Producto.DAO;
+import Categorias.DAO.ConexionBDCateg;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +30,7 @@ public class CategoriaDAO {
         String sql = "SELECT idCategoria, descripcion FROM tb_categoria ORDER BY descripcion"; 
 
         try {
-            con = ConexionBD.getConexion(); 
+            con = ConexionBDCateg.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
 
