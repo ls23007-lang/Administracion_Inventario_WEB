@@ -16,7 +16,7 @@ import java.sql.*;
  *
  * @author Usuario
  */
-/*public class MovimientoDAO {
+public class MovimientoDAO {
     
     public boolean registrarMovimiento(Movimiento m) {
         String sql = "INSERT INTO movimiento (tipo, id_producto, marca, modelo, cantidad, costo_unitario, fecha, id_proveedor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -89,4 +89,4 @@ import java.sql.*;
         }
         return lista;
     }
-}*/
+}

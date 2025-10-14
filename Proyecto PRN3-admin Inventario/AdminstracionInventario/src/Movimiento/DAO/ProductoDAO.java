@@ -13,7 +13,7 @@ import Movimiento.modelo.Producto;
  *
  * @author Usuario
  */
-/*public class ProductoDAO {
+public class ProductoDAO {
     
     public List<Producto> listarProductos() {
         List<Producto> lista = new ArrayList<>();
@@ -60,4 +60,4 @@ import Movimiento.modelo.Producto;
         }
         return p;
     }
-}*/
+}

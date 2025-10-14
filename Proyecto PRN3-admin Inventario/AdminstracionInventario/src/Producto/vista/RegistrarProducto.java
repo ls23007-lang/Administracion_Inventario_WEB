@@ -17,6 +17,7 @@ import Producto.DAO.CategoriaDAO;
 import Producto.DAO.ProveedorDAO; 
 import Producto.modelo.Producto; 
 import Producto.modelo.Item; 
+import VistasPrincipales.FrmPrincipal;
 
 /**
  *
@@ -226,6 +227,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         txtModelo = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        btnPrincipal = new javax.swing.JButton();
         panelTabla = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
@@ -493,6 +495,16 @@ public class RegistrarProducto extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel8, gridBagConstraints);
 
+        btnPrincipal.setBackground(new java.awt.Color(255, 102, 0));
+        btnPrincipal.setForeground(new java.awt.Color(255, 255, 255));
+        btnPrincipal.setText("Menú");
+        btnPrincipal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrincipalActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnPrincipal, new java.awt.GridBagConstraints());
+
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         panelTabla.setBackground(new java.awt.Color(102, 102, 102));
@@ -731,6 +743,10 @@ this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_txtModeloActionPerformed
 
+    private void btnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrincipalActionPerformed
+        FrmPrincipal principal = new FrmPrincipal();
+        principal.setVisible(true);    }//GEN-LAST:event_btnPrincipalActionPerformed
+
   
     /**
      * @param args the command line arguments
@@ -756,6 +772,7 @@ this.dispose();
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnPrincipal;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> cmbCategoria;
     private javax.swing.JComboBox<String> cmbProveedor;
