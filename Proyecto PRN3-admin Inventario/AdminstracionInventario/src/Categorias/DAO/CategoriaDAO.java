@@ -5,20 +5,22 @@ import Categorias.modelo.Categoria;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import Conexiondb.Conexion;
+import javax.swing.JOptionPane;
 
 public class CategoriaDAO {
 
     public List<Categoria> listar() {
-        String sql = "SELECT id, nombre, descripcion FROM categoria ORDER BY id";
+
+        String sql = "SELECT id_categoria, nombre, descripcion FROM categorias ORDER BY id_categoria";
         List<Categoria> data = new ArrayList<>();
-        try (Connection cn = ConexionBDCateg.getConnection();
+        try (Connection cn = Conexion.getConnection();
              PreparedStatement ps = cn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 data.add(new Categoria(
-                        rs.getInt("id"),
-                        
+                        rs.getInt("id_categoria"),                       
                         rs.getString("nombre"),
                         rs.getString("descripcion")));
             }
@@ -30,8 +32,8 @@ public class CategoriaDAO {
 
     public Categoria insertar(Categoria c) {
         validar(c, false);
-        String sql = "INSERT INTO categoria(nombre, descripcion) VALUES(?, ?) RETURNING id";
-        try (Connection cn = ConexionBDCateg.getConnection();
+        String sql = "INSERT INTO categorias(nombre, descripcion) VALUES(?, ?) RETURNING id_categoria";
+        try (Connection cn = Conexion.getConnection();
              PreparedStatement ps = cn.prepareStatement(sql)) {
 
            
@@ -52,8 +54,8 @@ public class CategoriaDAO {
   public void actualizar(Categoria c) {
     if (c.getId() == null) throw new IllegalArgumentException("ID requerido para actualizar.");
     validar(c, true);
-    String sql = "UPDATE categoria SET  nombre=?, descripcion=? WHERE id=?";
-    try (Connection cn = ConexionBDCateg.getConnection();
+    String sql = "UPDATE categorias SET  nombre=?, descripcion=? WHERE id_categoria=?";
+    try (Connection cn = Conexion.getConnection();
          PreparedStatement ps = cn.prepareStatement(sql)) {
 
         ps.setString(1, c.getNombre().trim());
@@ -68,8 +70,8 @@ public class CategoriaDAO {
 }
 
     public void eliminar(int id) {
-        String sql = "DELETE FROM categoria WHERE id=?";
-        try (Connection cn = ConexionBDCateg.getConnection();
+        String sql = "DELETE FROM categorias WHERE id_categoria=?";
+        try (Connection cn = Conexion.getConnection();
              PreparedStatement ps = cn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
@@ -80,15 +82,14 @@ public class CategoriaDAO {
     }
 
   public Categoria buscarPorNombre(String nombre) {
-    String sql = "SELECT id,  descripcion FROM categoria WHERE nombre=?";
-    try (Connection cn = ConexionBDCateg.getConnection();
+    String sql = "SELECT id_categoria, nombre, descripcion FROM categorias WHERE nombre=?";
+    try (Connection cn = Conexion.getConnection();
          PreparedStatement ps = cn.prepareStatement(sql)) {
         ps.setString(1, nombre);
         try (ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 return new Categoria(
-                    rs.getInt("id"),
-                    
+                    rs.getInt("id_categoria"),                   
                     rs.getString("nombre"),
                     rs.getString("descripcion"));
             }
@@ -98,6 +99,7 @@ public class CategoriaDAO {
         throw new RuntimeException("Error al buscar por nombre: " + e.getMessage(), e);
     }
 }
+
 
     private void validar(Categoria c, boolean esUpdate) {
     if (c == null) throw new IllegalArgumentException("Categoría requerida.");

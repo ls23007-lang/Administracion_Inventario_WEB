@@ -21,26 +21,28 @@ public class Producto {
     private int proveedorId; 
 
     // Constructor 1: Para CREAR/REGISTRAR un nuevo producto (sin ID, ya que la BD lo genera)
-    public Producto(String nombre, String marca, String modelo, int cantidad, double costoUnitario, int categoriaId, int proveedorId) {
+    public Producto(String nombre, String marca, String modelo, double costoUnitario,  int categoriaId, int proveedorId,  int cantidad) {
         this.nombre = nombre;
         this.marca = marca;
         this.modelo = modelo;
-        this.cantidad = cantidad;
+        
         this.costoUnitario = costoUnitario;
         this.categoriaId = categoriaId;
         this.proveedorId = proveedorId;
+        this.cantidad = cantidad;
     }
 
     // Constructor 2: Para OBTENER/CARGAR un producto existente de la BD (incluye ID)
-    public Producto(int id, String nombre, String marca, String modelo, int cantidad, double costoUnitario, int categoriaId, int proveedorId) {
+    public Producto(int id, String nombre, String marca, String modelo,  int categoriaId, int proveedorId, double costoUnitario, int cantidad) {
         this.id = id;
         this.nombre = nombre;
         this.marca = marca;
         this.modelo = modelo;
-        this.cantidad = cantidad;
+        
         this.costoUnitario = costoUnitario;
         this.categoriaId = categoriaId;
         this.proveedorId = proveedorId;
+        this.cantidad = cantidad;
     }
 
     public Producto() {

@@ -7,7 +7,6 @@ import Movimiento.modelo.Proveedor;
 import Movimiento.DAO.MovimientoDAO;
 import Movimiento.DAO.ProductoDAO;
 import Movimiento.DAO.ProveedorDAO;
-import VistasPrincipales.FrmPrincipal;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -26,8 +25,8 @@ import java.awt.event.*;
 
 public class FrmMovimiento extends javax.swing.JFrame {
 
-    /*MovimientoDAO movimientoDAO = new MovimientoDAO();
-    ProductoDAO productoDAO = new ProductoDAO();*/
+    MovimientoDAO movimientoDAO = new MovimientoDAO();
+    ProductoDAO productoDAO = new ProductoDAO();
     ProveedorDAO proveedorDAO = new ProveedorDAO();
     private int movimientoSeleccionadoId = -1;
     
@@ -129,7 +128,6 @@ public class FrmMovimiento extends javax.swing.JFrame {
         txtModelo = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         cbProveedor = new javax.swing.JComboBox<>();
-        btnPrincipal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("REGISTRAR MOVIMIENTO");
@@ -228,15 +226,6 @@ public class FrmMovimiento extends javax.swing.JFrame {
 
         cbProveedor.setModel(new javax.swing.DefaultComboBoxModel<>());
 
-        btnPrincipal.setBackground(new java.awt.Color(255, 102, 0));
-        btnPrincipal.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrincipal.setText("Menú");
-        btnPrincipal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrincipalActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -288,6 +277,13 @@ public class FrmMovimiento extends javax.swing.JFrame {
                                             .addComponent(jLabel6)
                                             .addGap(22, 22, 22)
                                             .addComponent(txtFecha)))))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(cbProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(226, 226, 226)
+                            .addComponent(jLabel1)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(140, 140, 140)
                         .addComponent(btnActualizar)
@@ -296,26 +292,13 @@ public class FrmMovimiento extends javax.swing.JFrame {
                         .addGap(49, 49, 49)
                         .addComponent(btnCancelar)))
                 .addContainerGap(17, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(cbProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(226, 226, 226)
-                        .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnPrincipal)
-                .addGap(36, 36, 36))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(btnPrincipal))
-                .addGap(34, 34, 34)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1)
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -451,11 +434,6 @@ public class FrmMovimiento extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_tblMovimientosMouseClicked
 
-    private void btnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrincipalActionPerformed
-        FrmPrincipal principal = new FrmPrincipal();
-        principal.setVisible(true);
-    }//GEN-LAST:event_btnPrincipalActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -498,7 +476,6 @@ public class FrmMovimiento extends javax.swing.JFrame {
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnPrincipal;
     private javax.swing.JComboBox<Producto> cbProducto;
     private javax.swing.JComboBox<Proveedor> cbProveedor;
     private javax.swing.JComboBox<String> cbTipo;

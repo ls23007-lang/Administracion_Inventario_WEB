@@ -10,14 +10,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import Producto.modelo.Producto; 
-import Categorias.DAO.ConexionBDCateg;
+import Conexiondb.Conexion;
 /**
  *
  * @author ander
  */
 public class ProductoDAO {
      // ⚠️ AJUSTA los nombres de tabla y columnas a tu esquema
-    private static final String TABLA = "tb_producto";
+    private static final String TABLA = "productos";
     
     /**
      * Registra un nuevo producto.
@@ -25,19 +25,19 @@ public class ProductoDAO {
     public boolean registrarProducto(Producto p) {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "INSERT INTO " + TABLA + " (nombre, marca, modelo, cantidad, costoUnitario, idCategoria, idProveedor) " +
+        String sql = "INSERT INTO " + TABLA + " (nombre, marca, modelo,  id_categoria, id_proveedor, costoUnitario, cantidad) " +
                       "VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
-            con = ConexionBDCateg.getConnection();
+            con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
             
             ps.setString(1, p.getNombre());
             ps.setString(2, p.getMarca());
-            ps.setString(3, p.getModelo());
-            ps.setInt(4, p.getCantidad());
-            ps.setDouble(5, p.getCostoUnitario());
-            ps.setInt(6, p.getCategoriaId());
-            ps.setInt(7, p.getProveedorId());
+            ps.setString(3, p.getModelo());           
+            ps.setInt(4, p.getCategoriaId());
+            ps.setInt(5, p.getProveedorId());
+            ps.setDouble(6, p.getCostoUnitario());
+            ps.setInt(7, p.getCantidad());
             
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -62,23 +62,24 @@ public class ProductoDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         
-        String sql = "SELECT idProducto, nombre, marca, modelo, cantidad, costoUnitario, idCategoria, idProveedor FROM " + TABLA;
+        String sql = "SELECT id_producto, nombre, marca, modelo, id_categoria, id_proveedor, costoUnitario, cantidad FROM " + TABLA;
         
         try {
-            con = ConexionBDCateg.getConnection();
+            con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             
             while (rs.next()) {
                 Producto p = new Producto(
-                    rs.getInt("idProducto"),
+                    rs.getInt("id_producto"),
                     rs.getString("nombre"),
                     rs.getString("marca"),
-                    rs.getString("modelo"),
-                    rs.getInt("cantidad"),
+                    rs.getString("modelo"),                    
+                    rs.getInt("id_categoria"),
+                    rs.getInt("id_proveedor"),
                     rs.getDouble("costoUnitario"),
-                    rs.getInt("idCategoria"),
-                    rs.getInt("idProveedor")
+                    rs.getInt("cantidad")
+                    
                 );
                 productos.add(p);
             }
@@ -109,14 +110,14 @@ public class ProductoDAO {
         ResultSet rs = null;
 
         // SQL que busca por ID exacto, o por nombre/marca/modelo parcial (ILIKE ignora mayúsculas/minúsculas)
-        String sql = "SELECT idProducto, nombre, marca, modelo, cantidad, costoUnitario, idCategoria, idProveedor FROM " + TABLA +
-                     " WHERE CAST(idProducto AS TEXT) = ? OR nombre ILIKE ? OR marca ILIKE ? OR modelo ILIKE ?";
+        String sql = "SELECT id_producto, nombre, marca, modelo,  id_categoria, id_proveedor, costoUnitario, cantidad FROM " + TABLA +
+                     " WHERE CAST(id_producto AS TEXT) = ? OR nombre ILIKE ? OR marca ILIKE ? OR modelo ILIKE ?";
 
         // Preparamos el criterio para la búsqueda parcial con comodines
         String criterioParcial = "%" + criterio.trim() + "%";
 
         try {
-            con = ConexionBDCateg.getConnection();
+            con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
             
             // Parámetro 1: Búsqueda exacta por ID (necesita el criterio original)
@@ -131,14 +132,16 @@ public class ProductoDAO {
             
             while (rs.next()) {
                 Producto p = new Producto(
-                    rs.getInt("idProducto"),
+                    rs.getInt("id_producto"),
                     rs.getString("nombre"),
                     rs.getString("marca"),
                     rs.getString("modelo"),
-                    rs.getInt("cantidad"),
+                    
+                    rs.getInt("id_categoria"),
+                    rs.getInt("id_proveedor"),
                     rs.getDouble("costoUnitario"),
-                    rs.getInt("idCategoria"),
-                    rs.getInt("idProveedor")
+                    rs.getInt("cantidad")
+                    
                 );
                 productos.add(p);
             }
@@ -162,20 +165,20 @@ public class ProductoDAO {
     public boolean actualizarProducto(Producto p) {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "UPDATE " + TABLA + " SET nombre=?, marca=?, modelo=?, cantidad=?, costoUnitario=?, idCategoria=?, idProveedor=? " +
-                      "WHERE idProducto=?";
+        String sql = "UPDATE " + TABLA + " SET nombre=?, marca=?, modelo=?,  id_categoria=?, id_proveedor=?, costoUnitario=?, cantidad=? " +
+                      "WHERE id_producto=?";
         try {
-            con = ConexionBDCateg.getConnection();
+            con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
             
             ps.setString(1, p.getNombre());
             ps.setString(2, p.getMarca());
             ps.setString(3, p.getModelo());
-            ps.setInt(4, p.getCantidad());
-            ps.setDouble(5, p.getCostoUnitario());
-            ps.setInt(6, p.getCategoriaId());
-            ps.setInt(7, p.getProveedorId());
-            ps.setInt(8, p.getId());
+            ps.setInt(4, p.getCategoriaId());
+            ps.setInt(5, p.getProveedorId());
+            ps.setInt(6, p.getId());
+            ps.setDouble(7, p.getCostoUnitario());
+            ps.setInt(8, p.getCantidad());
             
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -197,9 +200,9 @@ public class ProductoDAO {
     public boolean eliminarProducto(int idProducto) {
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "DELETE FROM " + TABLA + " WHERE idProducto = ?";
+        String sql = "DELETE FROM " + TABLA + " WHERE id_producto = ?";
         try {
-            con = ConexionBDCateg.getConnection();
+            con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, idProducto);
             

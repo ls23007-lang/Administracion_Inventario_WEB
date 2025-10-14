@@ -5,7 +5,7 @@
 package Movimiento.DAO;
 
 import Movimiento.modelo.Movimiento;
-//import modelo.Conexion;
+import Conexiondb.Conexion;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;

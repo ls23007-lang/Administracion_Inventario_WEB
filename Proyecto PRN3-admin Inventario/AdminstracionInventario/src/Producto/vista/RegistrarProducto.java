@@ -17,7 +17,6 @@ import Producto.DAO.CategoriaDAO;
 import Producto.DAO.ProveedorDAO; 
 import Producto.modelo.Producto; 
 import Producto.modelo.Item; 
-import VistasPrincipales.FrmPrincipal;
 
 /**
  *
@@ -51,7 +50,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         // 3. Configurar el modelo de la tabla
         DefaultTableModel model = new DefaultTableModel(
             new Object[][]{},
-            new String[]{"ID", "Nombre", "Marca", "Modelo", "Categoría", "Proveedor", "Cantidad", "Costo Unitario"}
+            new String[]{"ID", "Nombre", "Marca", "Modelo", "Categoría", "Proveedor", "Costo Unitario", "Cantidad" }
         ) {
              //  la columna ID no editable
             @Override
@@ -75,8 +74,9 @@ public class RegistrarProducto extends javax.swing.JFrame {
                     txtNombre.setText(tablaProductos.getValueAt(fila, 1).toString());
                     txtMarca.setText(tablaProductos.getValueAt(fila, 2).toString());
                     txtModelo.setText(tablaProductos.getValueAt(fila, 3).toString());
-                    txtCantidad.setText(tablaProductos.getValueAt(fila, 6).toString()); 
-                    txtCosto.setText(tablaProductos.getValueAt(fila, 7).toString());
+                    txtCostoUnitario.setText(tablaProductos.getValueAt(fila, 6).toString());
+                    txtCantidad.setText(tablaProductos.getValueAt(fila, 7).toString()); 
+                    
 
                     // Traducir nombre de Categoría y Proveedor de vuelta a la selección del ComboBox
                     seleccionarComboBoxPorNombre(cmbCategoria, tablaProductos.getValueAt(fila, 4).toString());
@@ -148,11 +148,11 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 p.getId(), // ID REAL de la BD
                 p.getNombre(),
                 p.getMarca(),
-                p.getModelo(),
+                p.getModelo(),              
                 catNombre, 
-                provNombre,
-                p.getCantidad(),
-                p.getCostoUnitario()
+                provNombre,  
+                p.getCostoUnitario(),
+                p.getCantidad()
             });
         }
     }
@@ -182,7 +182,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         txtMarca.setText("");
         cmbCategoria.setSelectedIndex(-1);
         cmbProveedor.setSelectedIndex(-1);
-        txtCosto.setText("");
+        txtCostoUnitario.setText("");
         txtBuscar.setText("");
         tablaProductos.clearSelection();
         txtModelo.setText("");
@@ -210,7 +210,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtCosto = new javax.swing.JTextField();
+        txtCostoUnitario = new javax.swing.JTextField();
         btnRegistrar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -227,7 +227,6 @@ public class RegistrarProducto extends javax.swing.JFrame {
         txtModelo = new javax.swing.JTextField();
         txtCantidad = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        btnPrincipal = new javax.swing.JButton();
         panelTabla = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
@@ -299,16 +298,16 @@ public class RegistrarProducto extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel4, gridBagConstraints);
 
-        txtCosto.setBackground(new java.awt.Color(51, 51, 51));
-        txtCosto.setColumns(20);
-        txtCosto.setForeground(new java.awt.Color(255, 255, 255));
+        txtCostoUnitario.setBackground(new java.awt.Color(51, 51, 51));
+        txtCostoUnitario.setColumns(20);
+        txtCostoUnitario.setForeground(new java.awt.Color(255, 255, 255));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtCosto, gridBagConstraints);
+        jPanel1.add(txtCostoUnitario, gridBagConstraints);
 
         btnRegistrar.setBackground(new java.awt.Color(255, 102, 51));
         btnRegistrar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -495,16 +494,6 @@ public class RegistrarProducto extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel8, gridBagConstraints);
 
-        btnPrincipal.setBackground(new java.awt.Color(255, 102, 0));
-        btnPrincipal.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrincipal.setText("Menú");
-        btnPrincipal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrincipalActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnPrincipal, new java.awt.GridBagConstraints());
-
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         panelTabla.setBackground(new java.awt.Color(102, 102, 102));
@@ -518,13 +507,13 @@ public class RegistrarProducto extends javax.swing.JFrame {
         tablaProductos.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Categoria", "Proveedor", "Precio"
+                "ID", "Nombre", "Marca", "Modelo", "Categoria", "Proveedor", "Cantidad", "Costo Unitario"
             }
         ));
         tablaProductos.setRowHeight(25);
@@ -545,15 +534,15 @@ public class RegistrarProducto extends javax.swing.JFrame {
      String nombre = txtNombre.getText();
         String marca = txtMarca.getText();
         String modelo = txtModelo.getText();
-        String precioTexto = txtCosto.getText();
+        String precioTexto = txtCostoUnitario.getText();
         String cantidadTexto = txtCantidad.getText();
 
         int catIndex = cmbCategoria.getSelectedIndex();
         int provIndex = cmbProveedor.getSelectedIndex();
 
         // 1. Validación de campos vacíos
-        if (nombre.isEmpty() || marca.isEmpty() || precioTexto.isEmpty() || cantidadTexto.isEmpty() || modelo.isEmpty()
-                 || catIndex == -1 || provIndex == -1) {
+        if (nombre.isEmpty() || marca.isEmpty()  || modelo.isEmpty()
+                 || catIndex == -1 || provIndex == -1 || precioTexto.isEmpty() || cantidadTexto.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.");
             return;
         }
@@ -579,7 +568,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
 
             // 4. Crear el objeto Producto sin ID (la BD lo asignará)
             Producto nuevoProducto = new Producto(
-                nombre, marca, modelo, cantidad, precio, 
+                nombre, marca, modelo, precio, cantidad, 
                 categoriaSeleccionada.getId(), proveedorSeleccionado.getId()
             );
 
@@ -649,8 +638,9 @@ this.dispose();
                 p.getModelo(),
                 catNombre, 
                 provNombre, 
-                p.getCantidad(),
-                p.getCostoUnitario()
+                p.getCostoUnitario(),
+                p.getCantidad()
+                
             });
         }
         JOptionPane.showMessageDialog(this, "Se encontraron " + productosFiltrados.size() + " producto(s).", "Búsqueda Exitosa", JOptionPane.INFORMATION_MESSAGE);
@@ -678,8 +668,8 @@ this.dispose();
             }
 
             try {
+                double precio = Double.parseDouble(txtCostoUnitario.getText());
                 int cantidad = Integer.parseInt(txtCantidad.getText());
-                double precio = Double.parseDouble(txtCosto.getText());
 
                 if (cantidad < 0 || precio <= 0) {
                      JOptionPane.showMessageDialog(this, "Cantidad/Precio deben ser números válidos (>0).");
@@ -693,7 +683,7 @@ this.dispose();
                 // Crear el objeto Producto para enviar al DAO (ahora SÍ necesita el ID)
                 Producto productoActualizado = new Producto(
                     idProducto, txtNombre.getText(), txtMarca.getText(), txtModelo.getText(), 
-                    cantidad, precio, categoriaSeleccionada.getId(), proveedorSeleccionado.getId()
+                     categoriaSeleccionada.getId(), proveedorSeleccionado.getId(), precio, cantidad
                 );
                 
                 // 3. LLAMAR AL DAO PARA ACTUALIZAR EN LA BD
@@ -743,10 +733,6 @@ this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_txtModeloActionPerformed
 
-    private void btnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrincipalActionPerformed
-        FrmPrincipal principal = new FrmPrincipal();
-        principal.setVisible(true);    }//GEN-LAST:event_btnPrincipalActionPerformed
-
   
     /**
      * @param args the command line arguments
@@ -772,7 +758,6 @@ this.dispose();
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnPrincipal;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> cmbCategoria;
     private javax.swing.JComboBox<String> cmbProveedor;
@@ -790,7 +775,7 @@ this.dispose();
     private javax.swing.JTable tablaProductos;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCantidad;
-    private javax.swing.JTextField txtCosto;
+    private javax.swing.JTextField txtCostoUnitario;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtModelo;
     private javax.swing.JTextField txtNombre;

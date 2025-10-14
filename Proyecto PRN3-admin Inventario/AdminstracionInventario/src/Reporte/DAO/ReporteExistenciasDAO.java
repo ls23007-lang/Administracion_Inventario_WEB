@@ -4,7 +4,7 @@
  */
 package Reporte.DAO;
 
-import Categorias.DAO.ConexionBDCateg;
+import Conexiondb.Conexion;
 import Producto.modelo.Producto;
 import Reporte.tmodel.ExistenciaTableModel;
 import java.sql.Connection;
@@ -27,10 +27,10 @@ public class ReporteExistenciasDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-        String sql = "SELECT idProducto, nombre, marca, modelo, cantidad, costoUnitario, idCategoria, idProveedor FROM producto";
+        String sql = "SELECT id_producto, nombre, marca, modelo, id_categoria, id_proveedor, costoUnitario, cantidad FROM productos";
 
         try {
-            con = ConexionBDCateg.getConnection();
+            con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
 
@@ -45,14 +45,14 @@ public class ReporteExistenciasDAO {
                     rs.getInt("idCategoria"),
                     rs.getInt("idProveedor")
                 );*/  //Reestructuraciòn de codigo
-                p.setId(rs.getInt("idproducto"));
+                p.setId(rs.getInt("id_producto"));
                 p.setNombre(rs.getString("nombre"));
                 p.setMarca(rs.getString("marca"));
-                p.setModelo(rs.getString("modelo"));
-                p.setCantidad(rs.getInt("cantidad"));
+                p.setModelo(rs.getString("modelo"));  
+                p.setCategoriaId(rs.getInt("id_categoria"));
+                p.setProveedorId(rs.getInt("id_proveedor"));
                 p.setCostoUnitario(rs.getDouble("costounitario"));
-                p.setCategoriaId(rs.getInt("idcategoria"));
-                p.setProveedorId(rs.getInt("idproveedor"));
+                p.setCantidad(rs.getInt("cantidad"));
                 this.existenciaTModel.addProducto(p);        
 
             }

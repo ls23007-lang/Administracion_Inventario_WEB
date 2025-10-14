@@ -7,7 +7,7 @@ package Movimiento.DAO;
 import java.sql.*;
 import java.util.*;
 import Movimiento.modelo.Producto;
-//import modelo.Conexion;
+import Conexiondb.Conexion;
 
 /**
  *

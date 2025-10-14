@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Producto.DAO;
-import Categorias.DAO.ConexionBDCateg;
+
+import Conexiondb.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,15 +28,15 @@ public class CategoriaDAO {
         ResultSet rs = null;
 
         //️ AJUSTA los nombres de tabla y columnas si son diferentes en tu BD.
-        String sql = "SELECT idCategoria, descripcion FROM tb_categoria ORDER BY descripcion"; 
+        String sql = "SELECT id_categoria, descripcion FROM categorias ORDER BY descripcion"; 
 
         try {
-            con = ConexionBDCateg.getConnection();
+            con = Conexion.getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("idCategoria");
+                int id = rs.getInt("id_categoria");
                 String descripcion = rs.getString("descripcion");
                 lista.add(new Item(id, descripcion));
             }

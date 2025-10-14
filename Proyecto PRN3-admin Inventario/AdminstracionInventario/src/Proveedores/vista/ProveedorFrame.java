@@ -11,13 +11,12 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
 import Proveedores.modelo.Proveedor;
-import VistasPrincipales.FrmPrincipal;
 
 
 public class ProveedorFrame extends JFrame {
 
-   private final Proveedores.DAO.ProveedorDAO provDao = new Proveedores.DAO.ProveedorDAO();
-private javax.swing.table.DefaultTableModel modeloProv;
+    private final Proveedores.DAO.ProveedorDAO provDao = new Proveedores.DAO.ProveedorDAO();
+    private javax.swing.table.DefaultTableModel modeloProv;
  
     
     
@@ -166,7 +165,6 @@ private void eliminarSeleccionado() {
         btnNuevo = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         btnSalir = new javax.swing.JButton();
-        btnPrincipal = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -295,15 +293,6 @@ private void eliminarSeleccionado() {
             }
         });
 
-        btnPrincipal.setBackground(new java.awt.Color(255, 102, 0));
-        btnPrincipal.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrincipal.setText("Menú");
-        btnPrincipal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrincipalActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -350,13 +339,8 @@ private void eliminarSeleccionado() {
                 .addGap(15, 15, 15))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                        .addComponent(btnSalir)
-                        .addGap(67, 67, 67))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                        .addComponent(btnPrincipal)
-                        .addGap(33, 33, 33))))
+                .addComponent(btnSalir)
+                .addGap(67, 67, 67))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -389,9 +373,7 @@ private void eliminarSeleccionado() {
                 .addComponent(btnSalir)
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                .addComponent(btnPrincipal)
-                .addGap(17, 17, 17))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -522,10 +504,6 @@ private void eliminarSeleccionado() {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void btnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrincipalActionPerformed
-        FrmPrincipal principal = new FrmPrincipal();
-        principal.setVisible(true);    }//GEN-LAST:event_btnPrincipalActionPerformed
-
 
     
 
@@ -534,7 +512,6 @@ private void eliminarSeleccionado() {
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton btnPrincipal;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

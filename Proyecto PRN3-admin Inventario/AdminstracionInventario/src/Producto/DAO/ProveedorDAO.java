@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import Producto.modelo.Item;
-import Categorias.DAO.ConexionBDCateg;
+import Conexiondb.Conexion;
 
 
 /**
@@ -29,16 +29,16 @@ public class ProveedorDAO {
         ResultSet rs = null;
 
         //  AJUSTA los nombres de tabla y columnas si son diferentes en tu BD.
-        String sql = "SELECT idProveedor, nombreProveedor FROM tb_proveedor ORDER BY nombreProveedor"; 
+        String sql = "SELECT id_proveedor, nombre FROM proveedores ORDER BY nombre"; 
 
         try {
-            con = ConexionBDCateg.getConnection(); // ⬅️ LLAMADA CORREGIDA
+            con = Conexion.getConnection(); // ⬅️ LLAMADA CORREGIDA
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("idProveedor");
-                String nombre = rs.getString("nombreProveedor");
+                int id = rs.getInt("id_proveedor");
+                String nombre = rs.getString("nombre");
                 lista.add(new Item(id, nombre));
             }
         } catch (SQLException e) {

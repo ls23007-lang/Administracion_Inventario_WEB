@@ -4,8 +4,6 @@
  */
 package Reporte.vista;
 
-import VistasPrincipales.FrmPrincipal;
-
 /**
  *
  * @author Dell
@@ -32,7 +30,6 @@ public class ReporteFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnExistencias = new javax.swing.JButton();
         btnKardex = new javax.swing.JButton();
-        btnPrincipal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Reportes");
@@ -62,15 +59,6 @@ public class ReporteFrame extends javax.swing.JFrame {
             }
         });
 
-        btnPrincipal.setBackground(new java.awt.Color(255, 102, 0));
-        btnPrincipal.setForeground(new java.awt.Color(255, 255, 255));
-        btnPrincipal.setText("Menú");
-        btnPrincipal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrincipalActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -89,10 +77,6 @@ public class ReporteFrame extends javax.swing.JFrame {
                         .addGap(27, 27, 27)
                         .addComponent(btnKardex, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(43, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnPrincipal)
-                .addGap(157, 157, 157))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,9 +89,7 @@ public class ReporteFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExistencias, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnKardex, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addComponent(btnPrincipal)
-                .addGap(16, 16, 16))
+                .addGap(72, 72, 72))
         );
 
         pack();
@@ -122,10 +104,6 @@ public class ReporteFrame extends javax.swing.JFrame {
     private void btnKardexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKardexActionPerformed
         FrmKardex kardex = new FrmKardex();
         kardex.setVisible(true);       }//GEN-LAST:event_btnKardexActionPerformed
-
-    private void btnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrincipalActionPerformed
-        FrmPrincipal principal = new FrmPrincipal();
-        principal.setVisible(true);    }//GEN-LAST:event_btnPrincipalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,7 +143,6 @@ public class ReporteFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExistencias;
     private javax.swing.JButton btnKardex;
-    private javax.swing.JButton btnPrincipal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
