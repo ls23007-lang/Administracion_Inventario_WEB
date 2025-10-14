@@ -65,7 +65,7 @@ public class FrmKardex extends javax.swing.JFrame {
     //Incializa la tabla con los datos de la BD
     private void consultaMovimientos() {
         ReporteKardexDAO kardexs = new ReporteKardexDAO();      
-        kardexs.getMovimientos();
+        kardexs.getMovimientos(kardexTModel);
         tablaKardex.repaint();
     }
     /**

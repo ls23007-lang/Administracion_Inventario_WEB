@@ -9,6 +9,7 @@ import Movimiento.vista.FrmMovimiento;
 import Producto.vista.RegistrarProducto;
 import Proveedores.vista.ProveedorFrame;
 import Reporte.vista.ReporteFrame;
+import javax.swing.JFrame;
 
 /**
  *
@@ -156,7 +157,10 @@ public class FrmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnMovimientosActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        ReporteFrame reportes =new ReporteFrame();
+        ReporteFrame reporte = new ReporteFrame();
+        reporte.setVisible(true);             // Mostrar ventana
+        reporte.setLocationRelativeTo(null);  // Centrar en pantalla
+        reporte.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btnReportesActionPerformed
 
     /**

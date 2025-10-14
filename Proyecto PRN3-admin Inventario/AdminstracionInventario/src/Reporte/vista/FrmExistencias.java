@@ -72,7 +72,7 @@ public class FrmExistencias extends javax.swing.JFrame {
     //Consulta los datos de a la base de datos
     private void consultaExistencias() {
         ReporteExistenciasDAO existencias = new ReporteExistenciasDAO();      
-        existencias.getProductos();
+        existencias.getProductos(existenciaTModel);
         tablaExistencias.repaint();
     }
     

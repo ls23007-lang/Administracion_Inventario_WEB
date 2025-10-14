@@ -17,26 +17,17 @@ import java.sql.SQLException;
  * @author Dell
  */
 public class ReporteKardexDAO {
-    
-    private KardexTableModel kardexTModel = new KardexTableModel();
-    
-    //Metodo para obtener los datos
-       public void getMovimientos() {
 
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
+    // Método para obtener los movimientos desde la BD y agregarlos al modelo del JTable
+    public void getMovimientos(KardexTableModel model) {
         String sql = "SELECT * FROM movimiento";
 
-        try {
-            con = Conexion.getConnection();
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
+        try (Connection con = Conexion.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Movimiento m = new Movimiento();
- 
                 m.setId(rs.getInt("id"));
                 m.setTipo(rs.getString("tipo"));
                 m.setId_producto(rs.getInt("id_producto"));
@@ -44,28 +35,17 @@ public class ReporteKardexDAO {
                 m.setModelo(rs.getString("modelo"));
                 m.setCantidad(rs.getInt("cantidad"));
                 m.setCosto_unitario(rs.getDouble("costo_unitario"));
-                m.setFecha(rs.getString("fecha"));
+                m.setFecha(rs.getDate("fecha").toString());
                 m.setId_proveedor(rs.getInt("id_proveedor"));
-                this.kardexTModel.addMovimiento(m);        
 
+                model.addMovimiento(m);
             }
-            
+
+            // Notificar al JTable que los datos cambiaron
+            model.fireTableDataChanged();
+
         } catch (SQLException e) {
-            System.err.println("Error al obtener productos: " + e.getMessage());
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-                if (ps != null) {
-                    ps.close();
-                }
-                if (con != null) {
-                    con.close();
-                }
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar recursos: " + e.getMessage());
-            }
+            System.err.println("Error al obtener movimientos: " + e.getMessage());
         }
     }
 }
