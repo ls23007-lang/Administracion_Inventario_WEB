@@ -158,8 +158,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
         ReporteFrame reporte = new ReporteFrame();
-        reporte.setVisible(true);             // Mostrar ventana
-        reporte.setLocationRelativeTo(null);  // Centrar en pantalla
+        reporte.setVisible(true);
+        reporte.setLocationRelativeTo(null);
         reporte.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btnReportesActionPerformed
 

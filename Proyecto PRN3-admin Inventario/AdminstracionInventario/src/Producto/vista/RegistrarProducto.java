@@ -29,7 +29,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
     private List<Item> categorias;
     private List<Item> proveedores;
 
-    // INSTANCIACIÓN DE DAOs (CORREGIDO)
+    // INSTANCIACIÓN DE DAO (CORREGIDO)
     // ProductoDAO se instancia en los métodos donde se necesita (registrar, actualizar, etc.)
     private CategoriaDAO categoriaDAO = new CategoriaDAO(); 
     private ProveedorDAO proveedorDAO = new ProveedorDAO(); 
@@ -41,31 +41,31 @@ public class RegistrarProducto extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         
-        // 1. Cargar los IDs y Nombres de Categoría/Proveedor de la BD
+        //Cargar los IDs y Nombres de Categoría/Proveedor de la BD
         cargarDatosClaves(); // ⬅️ Nuevo método implementado abajo
 
-        // 2. Llenar cmbCategoria y cmbProveedor con los datos cargados
+        //Llenar cmbCategoria y cmbProveedor con los datos cargados
         inicializarComboBoxes();
 
-        // 3. Configurar el modelo de la tabla
+        //Configurar el modelo de la tabla
         DefaultTableModel model = new DefaultTableModel(
             new Object[][]{},
             new String[]{"ID", "Nombre", "Marca", "Modelo", "Categoría", "Proveedor", "Costo Unitario", "Cantidad" }
         ) {
-             //  la columna ID no editable
+             //la columna ID no editable
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column != 0; 
             }
         };
 
-        // 4. Asignar el modelo a la tabla
+        //Asignar el modelo a la tabla
         tablaProductos.setModel(model); 
 
-        // 5. Cargar los datos REALES de la base de datos a la JTable
+        //Cargar los datos REALES de la base de datos a la JTable
         cargarTablaProductos();
         
-        // 6. Listener para rellenar campos al hacer click en la tabla
+        //Listener para rellenar campos al hacer click en la tabla
         tablaProductos.addMouseListener(new MouseAdapter() {
              @Override
             public void mouseClicked(MouseEvent evt) {
@@ -540,7 +540,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
         int catIndex = cmbCategoria.getSelectedIndex();
         int provIndex = cmbProveedor.getSelectedIndex();
 
-        // 1. Validación de campos vacíos
+        // Validación de campos vacíos
         if (nombre.isEmpty() || marca.isEmpty()  || modelo.isEmpty()
                  || catIndex == -1 || provIndex == -1 || precioTexto.isEmpty() || cantidadTexto.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor complete todos los campos.");
@@ -551,7 +551,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
             int cantidad = Integer.parseInt(cantidadTexto);
             double precio = Double.parseDouble(precioTexto);
 
-            // 2. Validación de valores numéricos
+            // Validación de valores numéricos
             if (cantidad < 0) {
                 JOptionPane.showMessageDialog(this, "La cantidad no puede ser negativa.");
                 return;
@@ -561,24 +561,24 @@ public class RegistrarProducto extends javax.swing.JFrame {
                 return;
             }
 
-            // 3. Obtener los IDs reales de las claves foráneas
+            // Obtener los IDs reales de las claves foráneas
             //  Se usa .get(index) en lugar de [index] en una List
             Item categoriaSeleccionada = categorias.get(catIndex);
             Item proveedorSeleccionado = proveedores.get(provIndex);
 
-            // 4. Crear el objeto Producto sin ID (la BD lo asignará)
+            // Crear el objeto Producto sin ID (la BD lo asignará)
             Producto nuevoProducto = new Producto(
                 nombre, marca, modelo, precio, cantidad, 
                 categoriaSeleccionada.getId(), proveedorSeleccionado.getId()
             );
 
-            // 5. LLAMAR AL DAO PARA REGISTRAR EN LA BD
+            // LLAMAR AL DAO PARA REGISTRAR EN LA BD
             ProductoDAO productoDAO = new ProductoDAO();
 
             if (productoDAO.registrarProducto(nuevoProducto)) {
                 JOptionPane.showMessageDialog(this, "✅ Producto registrado correctamente en la Base de Datos.");
                 
-                // 6. Recargar la tabla con los datos actualizados de la BD
+                // Recargar la tabla con los datos actualizados de la BD
                 cargarTablaProductos();
                 limpiarCampos();
             } else {
@@ -593,7 +593,7 @@ public class RegistrarProducto extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         
-this.dispose();
+    this.dispose();
         
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -608,26 +608,26 @@ this.dispose();
         String criterio = txtBuscar.getText().trim();
     ProductoDAO productoDAO = new ProductoDAO();
 
-    // 1. Validación de campo vacío. Si está vacío, recarga toda la tabla.
+    //Validación de campo vacío. Si está vacío, recarga toda la tabla.
     if (criterio.isEmpty()) {
         JOptionPane.showMessageDialog(this, "El campo de búsqueda estaba vacío. Mostrando todos los productos.");
         cargarTablaProductos(); 
         return;
     }
 
-    // 2. Llamar al DAO para obtener la lista filtrada desde la BD
+    // Llamar al DAO para obtener la lista filtrada desde la BD
     List<Producto> productosFiltrados = productoDAO.buscarProductosPorCriterio(criterio);
 
-    // 3. Obtener el modelo de la tabla y limpiar filas anteriores
+    // Obtener el modelo de la tabla y limpiar filas anteriores
     DefaultTableModel modeloTabla = (DefaultTableModel) tablaProductos.getModel();
     modeloTabla.setRowCount(0); 
     
-    // 4. Llenar la tabla con los resultados obtenidos de la BD
+    // Llenar la tabla con los resultados obtenidos de la BD
     if (productosFiltrados.isEmpty()) {
         JOptionPane.showMessageDialog(this, "No se encontraron productos con el criterio: " + criterio, "Sin Resultados", JOptionPane.INFORMATION_MESSAGE);
     } else {
         for (Producto p : productosFiltrados) {
-            // Se necesitan los métodos auxiliares para traducir ID a Nombre
+            //Se necesitan los métodos auxiliares para traducir ID a Nombre
             String catNombre = buscarNombreCategoria(p.getCategoriaId());
             String provNombre = buscarNombreProveedor(p.getProveedorId());
 
@@ -655,13 +655,13 @@ this.dispose();
      int fila = tablaProductos.getSelectedRow();
         if (fila >= 0) {
             
-            // 1. Obtener el ID del producto seleccionado (columna 0)
+            // Obtener el ID del producto seleccionado (columna 0)
             int idProducto = (int) tablaProductos.getValueAt(fila, 0); 
             
             int catIndex = cmbCategoria.getSelectedIndex();
             int provIndex = cmbProveedor.getSelectedIndex();
 
-            // 1.b. Validación de campos de ComboBox
+            // Validación de campos de ComboBox
             if (catIndex == -1 || provIndex == -1 || txtNombre.getText().isEmpty() || txtMarca.getText().isEmpty() || txtModelo.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Por favor complete todos los campos (y seleccione Categoría/Proveedor).");
                 return;
@@ -686,7 +686,7 @@ this.dispose();
                      categoriaSeleccionada.getId(), proveedorSeleccionado.getId(), precio, cantidad
                 );
                 
-                // 3. LLAMAR AL DAO PARA ACTUALIZAR EN LA BD
+                // LLAMAR AL DAO PARA ACTUALIZAR EN LA BD
                 ProductoDAO productoDAO = new ProductoDAO();
                 if (productoDAO.actualizarProducto(productoActualizado)) {
                     JOptionPane.showMessageDialog(this, "✅ Producto actualizado correctamente en la Base de Datos.");
@@ -708,13 +708,13 @@ this.dispose();
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int fila = tablaProductos.getSelectedRow();
         if (fila >= 0) {
-            // 1. Obtener el ID del producto seleccionado (columna 0)
+            // Obtener el ID del producto seleccionado (columna 0)
             int idProducto = (int) tablaProductos.getValueAt(fila, 0); 
             
             int confirm = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar el producto ID: " + idProducto + "?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION);
             
             if (confirm == JOptionPane.YES_OPTION) {
-                // 2. LLAMAR AL DAO PARA ELIMINAR EN LA BD
+                // LLAMAR AL DAO PARA ELIMINAR EN LA BD
                 ProductoDAO productoDAO = new ProductoDAO();
                 if (productoDAO.eliminarProducto(idProducto)) {
                     JOptionPane.showMessageDialog(this, "✅ Producto eliminado correctamente de la Base de Datos.");
