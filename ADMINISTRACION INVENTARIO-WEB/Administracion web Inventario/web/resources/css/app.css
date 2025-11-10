@@ -1,0 +1,105 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+
+
+/* ===== Tema oscuro inventario (negro + naranja + blanco) ===== */
+:root{
+  --bg: #1c1f23;          /* fondo general */
+  --panel: #24292e;       /* paneles/cards */
+  --panel-2: #2b3137;     /* panel variante */
+  --text: #f4f6f8;        /* texto principal */
+  --muted: #cfd6de;       /* texto tenue */
+  --border: #3a3f44;
+  --orange: #ff7a18;      /* acento */
+  --orange-700:#ff6a00;
+  --orange-800:#e55f00;
+  --shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+
+html, body { background-color: var(--bg); color: var(--text); }
+a { color: var(--orange); }
+a:hover { color: var(--orange-700); }
+
+/* Navbar */
+.navbar-dark.bg-dark { background-color: #14171a !important; box-shadow: 0 2px 12px rgba(0,0,0,.4); }
+.navbar-brand { color: var(--text) !important; }
+.nav-link { color: var(--muted) !important; }
+.nav-link.active, .nav-link:hover { color: var(--text) !important; }
+
+/* Hero / títulos */
+.hero { padding: 3rem 0 2rem; }
+.display-5, .h3 { color: var(--text); }
+
+/* Cards oscuras */
+.card-dark { background: linear-gradient(180deg, var(--panel), var(--panel-2));
+             border: 1px solid var(--border); box-shadow: var(--shadow); color: var(--text); }
+.card-dark .card-header { border-bottom: 1px solid var(--border); }
+
+/* Inputs oscuros */
+.form-control, .form-select, .form-control:focus, .form-select:focus {
+  background-color: #202427; border: 1px solid var(--border); color: var(--text);
+}
+.form-control::placeholder { color: #9aa3ad; }
+
+/* Botones principales más grandes en la portada */
+.btn-orange-lg {
+  background: linear-gradient(180deg, var(--orange), var(--orange-700));
+  border: 1px solid var(--orange-800);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 600;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(255, 122, 24, 0.4);
+  transition: all 0.2s ease;
+}
+
+.btn-orange-lg:hover {
+  background: var(--orange-800);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 122, 24, 0.55);
+  color: #fff;
+}
+
+
+/* Botón gris secundario */
+.btn-gray { background:#373c41; border:1px solid var(--border); color:#e7ecef; }
+.btn-gray:hover { background:#3e444a; color:#fff; }
+
+/* Tablas oscuras */
+.table-dark-inv { color: var(--text); }
+.table-dark-inv thead th { background:#1f2327; border-bottom:1px solid var(--border); }
+.table-dark-inv tbody tr { background:#202427; }
+.table-dark-inv tbody tr:nth-child(even){ background:#23292d; }
+.table-dark-inv td, .table-dark-inv th { border-color: var(--border); }
+
+/* Alerts */
+.alert-success { background:#123b22; color:#b1e3c2; border:1px solid #1f5134; }
+.alert-danger  { background:#3b1412; color:#f2b5ae; border:1px solid #5a1e1a; }
+
+/* Utilidades */
+.text-muted { color: var(--muted) !important; }
+/* Variantes naranja */
+.btn-orange {
+  background: linear-gradient(180deg, var(--orange), var(--orange-700));
+  border: 1px solid var(--orange-800);
+  color: #fff;
+}
+.btn-orange:hover { filter: brightness(1.02); color: #fff; }
+
+.btn-outline-orange {
+  background: transparent;
+  border: 1px solid var(--orange);
+  color: var(--orange);
+}
+.btn-outline-orange:hover {
+  background: var(--orange);
+  color: #fff;
+}
+
+.btn-orange:disabled,
+.btn-orange.disabled {
+  opacity: .6;
+  color:#fff;
+}
