@@ -1,6 +1,6 @@
 package Categoria.app.dao;
 
-import Categoria.app.config.DB;
+import Conexion.DB;
 import Categoria.app.dao.CategoriaDao;
 import Categoria.app.domain.Categoria;
 

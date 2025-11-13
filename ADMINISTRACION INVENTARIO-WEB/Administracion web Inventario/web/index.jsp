@@ -7,8 +7,11 @@
     <p class="lead text-muted mb-5">Gestiona todo tu inventario fácilmente desde un solo panel.</p>
 
     <div class="d-flex flex-wrap justify-content-center gap-3">
+      
       <a class="btn btn-orange-lg" href="categorias">Gestionar Categoría</a>
       <a class="btn btn-orange-lg" href="proveedores">Gestionar Proveedores</a>
+      
+      <a class="btn btn-orange-lg" href="MovimientoServlet">Gestionar Movimientos</a>
      
     </div>
 
@@ -16,4 +19,5 @@
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body></html>
+</body>
+</html>

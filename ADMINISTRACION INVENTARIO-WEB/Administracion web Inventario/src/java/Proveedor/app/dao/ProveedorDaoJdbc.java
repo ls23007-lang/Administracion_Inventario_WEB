@@ -1,6 +1,6 @@
 package Proveedor.app.dao;
 
-import Categoria.app.config.DB;          // usamos tu misma clase DB
+import Conexion.DB;          // usamos tu misma clase DB
 import Proveedor.app.domain.Proveedor;
 
 import java.sql.*;
