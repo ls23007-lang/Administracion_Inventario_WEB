@@ -12,6 +12,7 @@
       <a class="btn btn-orange-lg" href="proveedores">Gestionar Proveedores</a>
       
       <a class="btn btn-orange-lg" href="MovimientoServlet">Gestionar Movimientos</a>
+      <a class="btn btn-orange-lg" href="ProductoServlet">Gestionar Productos</a>
      
     </div>
 
