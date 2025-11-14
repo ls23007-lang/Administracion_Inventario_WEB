@@ -39,6 +39,7 @@ public class ProductoServlet extends HttpServlet {
                 case "editar":
                     int idEditar = Integer.parseInt(request.getParameter("id"));
                     request.setAttribute("productoParaEditar", productoDAO.obtenerPorId(idEditar));
+                    request.setAttribute("listaProductos", productoDAO.listar()); // ← esta línea es clave
                     request.setAttribute("listaCategorias", categoriaDAO.obtenerTodos());
                     request.setAttribute("listaProveedores", proveedorDAO.obtenerTodos());
                     break;
