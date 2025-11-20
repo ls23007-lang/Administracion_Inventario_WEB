@@ -31,11 +31,14 @@
         <li class="nav-item">
           <a class="nav-link ${fn:contains(uri, '/proveedores') ? 'active' : ''}"
              href="${ctx}/proveedores">Proveedores</a>
-        </li>
         </li>       
         <li class="nav-item">
           <a class="nav-link ${fn:contains(uri, '/MovimientoServlet') ? 'active' : ''}"
              href="${ctx}/MovimientoServlet">Movimientos</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link ${fn:contains(uri, '/ReporteServlet') ? 'active' : ''}"
+               href="${ctx}/ReporteServlet">Reportes</a>
         </li>
       </ul>
     </div>
