@@ -37,6 +37,10 @@
              href="${ctx}/MovimientoServlet">Movimientos</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link ${fn:contains(uri, '/ProductoServlet') ? 'active' : ''}"
+             href="${ctx}/ProductoServlet">Productos</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link ${fn:contains(uri, '/ReporteServlet') ? 'active' : ''}"
                href="${ctx}/ReporteServlet">Reportes</a>
         </li>

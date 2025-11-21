@@ -2,31 +2,31 @@
 <%@ include file="../jsp/header.jsp" %>
 <!DOCTYPE html>
 
- <div class="container mt-5">
+<div class="container mt-5">
     <div class="row">
-      <div class="col-12 text-center mb-4">
-        <h2 class="fw-bold text-secondary">Generar Reporte</h2>
-        <h3>Seleccione reporte a generar</h3>
-      </div>
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold text-secondary">Generar Reporte</h2>
+            <h3 class="text-muted fs-5">Seleccione el reporte a visualizar</h3>
+        </div>
     </div>
 
     <div class="row justify-content-center">
-      <div class="col-md-6">
-        <!-- Form para botón 1 -->
-        <form action="${ctx}/ReporteServlet" method="post" class="d-inline-block me-2">
-          <input type="hidden" name="accion" value="kardex" />
-          <button type="submit" class="btn btn-primary btn-lg">Kardex</button>
-        </form>
+        <div class="col-md-8 text-center">
+            
+            <a href="${pageContext.request.contextPath}/KardexServlet" class="btn btn-primary btn-lg py-3 px-4 me-3 shadow">
+                <i class="bi bi-table"></i> Ver Kardex
+            </a>
 
-        <!-- Form para botón 2 -->
-        <form action="${ctx}/ReporteServlet" method="post" class="d-inline-block">
-          <input type="hidden" name="accion" value="existencias" />
-          <button type="submit" class="btn btn-secondary btn-lg">Existencias</button>
-        </form>
-      </div>
+            <a href="${pageContext.request.contextPath}/ExistenciasServlet" class="btn btn-secondary btn-lg py-3 px-4 shadow">
+                <i class="bi bi-box-seam"></i> Ver Existencias
+            </a>
+            
+        </div>
     </div>
-  </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 </body>
 </html>
