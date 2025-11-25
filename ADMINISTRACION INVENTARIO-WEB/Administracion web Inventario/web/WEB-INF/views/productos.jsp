@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../jsp/header.jsp" %>
 
@@ -54,9 +55,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Categoría:</label>
+                            <label class="form-label fw-bold">CategorÃ­a:</label>
                             <select name="idCategoria" class="form-select" required>
-                                <option value="" disabled selected>Seleccione una Categoría</option>
+                                <option value="" disabled selected>Seleccione una CategorÃ­a</option>
                                 <c:forEach var="cat" items="${listaCategorias}">
                                     <option value="${cat.id}" ${cat.id == productoParaEditar.idCategoria ? 'selected' : ''}>
                                         ${cat.nombre}
@@ -94,7 +95,17 @@
                 <div class="card-header bg-white border-bottom">
                     <h5 class="mb-0 text-primary">Listado de Productos</h5>
                 </div>
-                <div class="card-body p-0">
+                <div class="card-body p-3">
+
+                    <!-- ðŸ” Formulario de bÃºsqueda -->
+                    <form action="ProductoServlet" method="get" class="mb-3">
+                        <input type="hidden" name="accion" value="buscar">
+                        <div class="input-group">
+                            <input type="text" name="criterio" class="form-control" placeholder="Buscar producto...">
+                            <button type="submit" class="btn btn-outline-primary">Buscar</button>
+                        </div>
+                    </form>
+
                     <table class="table table-striped table-hover align-middle mb-0">
                         <thead class="table-dark">
                             <tr>
@@ -104,7 +115,7 @@
                                 <th>Modelo</th>
                                 <th>Costo Unitario</th>
                                 <th>Cantidad</th>
-                                <th>Categoría</th>
+                                <th>CategorÃ­a</th>
                                 <th>Proveedor</th>
                                 <th class="text-center">Acciones</th>
                             </tr>
@@ -123,7 +134,7 @@
                                     <td class="text-center">
                                         <a href="ProductoServlet?accion=editar&id=${prod.id}" class="btn btn-primary btn-sm">Editar</a>
                                         <a href="ProductoServlet?accion=eliminar&id=${prod.id}" class="btn btn-danger btn-sm"
-                                           onclick="return confirm('¿Está seguro de eliminar el producto: ${prod.nombre}?');">
+                                           onclick="return confirm('Â¿EstÃ¡ seguro de eliminar el producto: ${prod.nombre}?');">
                                            Eliminar
                                         </a>
                                     </td>
@@ -133,7 +144,7 @@
                             <c:if test="${empty listaProductos}">
                                 <tr>
                                     <td colspan="9" class="text-center py-4 text-muted">
-                                        No hay productos registrados aún.
+                                        No hay productos registrados aÃºn.
                                     </td>
                                 </tr>
                             </c:if>

@@ -32,16 +32,21 @@ public class ProductoServlet extends HttpServlet {
             switch (accion) {
                 case "listar":
                     request.setAttribute("listaProductos", productoDAO.listar());
-                    request.setAttribute("listaCategorias", categoriaDAO.obtenerTodos());
-                    request.setAttribute("listaProveedores", proveedorDAO.obtenerTodos());
+                    break;
+
+                case "buscar":
+                    String criterio = request.getParameter("criterio");
+                    if (criterio != null && !criterio.trim().isEmpty()) {
+                        request.setAttribute("listaProductos", productoDAO.buscarPorNombre(criterio));
+                    } else {
+                        request.setAttribute("listaProductos", productoDAO.listar());
+                    }
                     break;
 
                 case "editar":
                     int idEditar = Integer.parseInt(request.getParameter("id"));
                     request.setAttribute("productoParaEditar", productoDAO.obtenerPorId(idEditar));
-                    request.setAttribute("listaProductos", productoDAO.listar()); // ← esta línea es clave
-                    request.setAttribute("listaCategorias", categoriaDAO.obtenerTodos());
-                    request.setAttribute("listaProveedores", proveedorDAO.obtenerTodos());
+                    request.setAttribute("listaProductos", productoDAO.listar());
                     break;
 
                 case "eliminar":
@@ -52,10 +57,13 @@ public class ProductoServlet extends HttpServlet {
                         request.setAttribute("mensajeError", "No se pudo eliminar el producto.");
                     }
                     request.setAttribute("listaProductos", productoDAO.listar());
-                    request.setAttribute("listaCategorias", categoriaDAO.obtenerTodos());
-                    request.setAttribute("listaProveedores", proveedorDAO.obtenerTodos());
                     break;
             }
+
+            // Siempre cargar categorías y proveedores
+            request.setAttribute("listaCategorias", categoriaDAO.obtenerTodos());
+            request.setAttribute("listaProveedores", proveedorDAO.obtenerTodos());
+
         } catch (Exception e) {
             request.setAttribute("mensajeError", "Error al procesar la acción: " + e.getMessage());
         }
